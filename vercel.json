@@ -1,20 +1,9 @@
 {
     "version": 2,
-    "name": "du-toit-aux-etoiles",
     "builds": [
         { "src": "**/*", "use": "@vercel/static" }
     ],
     "routes": [
         { "src": "/(.*)", "dest": "/$1" }
-    ],
-    "static": {
-        "public": [
-            "index.html",
-            "styles.css",
-            "script.js",
-            "playlist.json",
-            "audio/**",
-            "images/**"
-        ]
-    }
+    ]
 }
