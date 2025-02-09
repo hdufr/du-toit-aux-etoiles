@@ -13,7 +13,7 @@ const albumArt = document.getElementById('albumArt');
 // Fonction pour mettre à jour la source de l'image
 function updateAlbumArt(track) {
     // Utiliser l'image spécifiée dans le JSON, avec fallback sur default.jpg
-    const imagePath = `images/${track.image}`;
+    const imagePath = `./images/${track.image || 'default.jpg'}`;
     albumArt.src = imagePath;
 }
 
@@ -35,7 +35,7 @@ function loadTrack(index) {
     });
 
     // Mettre à jour le lecteur audio et l'image
-    audioPlayer.src = `audio/${tracks[index].filename}`;
+    audioPlayer.src = `./audio/${tracks[index].filename}`;
     updateAlbumArt(tracks[index]);
     
     // Démarrer la lecture immédiatement
@@ -44,7 +44,7 @@ function loadTrack(index) {
 
 // Remplacer par default.jpg si l'image ne charge pas
 albumArt.addEventListener('error', function() {
-    albumArt.src = 'images/default.jpg';
+    albumArt.src = './images/default.jpg';
 });
 
 // Passer à la piste suivante automatiquement après la lecture
@@ -58,7 +58,7 @@ audioPlayer.addEventListener('ended', () => {
 
 // Charger les pistes au démarrage
 function fetchTracks() {
-    fetch('playlist.json')
+    fetch('./playlist.json')
       .then(response => response.json())
       .then(data => {
           // Trier les pistes par ordre
@@ -68,12 +68,15 @@ function fetchTracks() {
           tracks.forEach((track, index) => {
               const li = document.createElement('li');
               li.textContent = track.title;
+              li.dataset.filename = track.filename;
+              li.dataset.image = track.image;
+
               li.addEventListener('click', () => loadTrack(index));
               playlistElement.appendChild(li);
           });
           
           // Afficher default.jpg au chargement
-          albumArt.src = 'images/default.jpg';
+          albumArt.src = './images/default.jpg';
           
           // Ne pas démarrer la lecture automatiquement
           // Désactiver le lecteur audio
