@@ -1,0 +1,207 @@
+/* styles.css */
+
+:root {
+    /* Palette de couleurs harmonieuse */
+    --color-background: #efdbc3;; /* Sable doux */
+    --color-primary: #8B4513; /* Marron selle de cheval */
+    --color-secondary: #D2691E; /* Marron cuivré */
+    --color-accent: #CD853F; /* Marron peru */
+    --color-light: #F0E6D9; /* Nouveau ton uniforme pour les fonds */
+    --color-text: #6B4423; /* Marron riche pour le texte */
+}
+
+body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Permet le défilement si nécessaire */
+}
+
+header {
+    text-align: center;
+    width: calc(100% - 20px); /* Soustrait l'espace à droite */
+    margin-bottom: 20px;
+    background-color: var(--color-light);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+h1 {
+    font-size: 2.5em;
+    color: var(--color-primary);
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    margin: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: row;  
+    width: 100%;
+    flex-grow: 1;
+    gap: 20px;
+    align-items: flex-start;
+    overflow: hidden; /* Empêche le débordement */
+}
+
+aside {
+    flex: 1;
+    background-color: var(--color-light);
+    border-radius: 10px;
+    padding: 15px 5px 15px 15px; /* Réduire le padding à droite */
+    max-height: 70vh; /* Limite la hauteur */
+    overflow-y: auto; /* Ajoute un défilement si nécessaire */
+    align-self: flex-start; /* Aligner au début du conteneur */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+}
+
+#playlist {
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    background-color: var(--color-light);
+    border-radius: 10px;
+    box-sizing: border-box; /* Inclure padding et border dans la largeur */
+    padding: 10px 5px 10px 10px;
+}
+
+#playlist li {
+    width: calc(100% - 10px); /* Soustraire le padding */
+    box-sizing: border-box; /* Inclure padding et border dans la largeur */
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-left: 4px solid transparent;
+    color: var(--color-primary);
+}
+
+#playlist li:hover {
+    background-color: var(--color-light);
+    transform: translateX(5px);
+    border-left-color: var(--color-secondary);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+#playlist li.active {
+    background-color: var(--color-light);
+    border-left-color: var(--color-accent);
+    color: var(--color-primary);
+}
+
+.player-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: flex-start; 
+    background-color: var(--color-light);
+    border-radius: 10px;
+    max-height: 70vh; /* Limite la hauteur */
+    overflow: hidden; /* Empêche le débordement */
+    box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+}
+
+#albumArt {
+    max-width: 90%;
+    max-height: 60vh; /* Réduit la hauteur maximale */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-top: 20px; /* Ajoute une marge en haut de l'image */
+    margin-bottom: 20px;
+    object-fit: contain;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#albumArt:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+audio {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+footer {
+    width: 100%;
+    background-color: transparent;
+    color: var(--color-text);
+    text-align: center;
+    padding: 15px 0;
+    margin-top: auto; /* Pousse le footer en bas */
+    font-size: 0.9em;
+    font-weight: 300;
+}
+
+/* Media Queries pour le responsive design */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+        flex-direction: column;
+    }
+
+    main {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    aside {
+        width: 90%; /* Largeur réduite */
+        max-width: 400px; /* Largeur maximale */
+        align-self: center; /* Centrage horizontal */
+    }
+
+    .player-container {
+        width: 90%; /* Largeur réduite */
+        max-width: 400px; /* Largeur maximale */
+        align-self: center; /* Centrage horizontal */
+    }
+
+    #albumArt {
+        max-width: 100%;
+        max-height: 50vh;
+    }
+}
+
+/* Media Queries pour les très petits écrans */
+@media screen and (max-width: 480px) {
+    body {
+        padding: 5px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    aside {
+        max-height: 200px;
+        width: 90%; /* Largeur réduite */
+        max-width: 400px; /* Largeur maximale */
+        align-self: center; /* Centrage horizontal */
+    }
+
+    #albumArt {
+        max-height: 40vh;
+    }
+
+    #playlist li {
+        padding: 6px;
+        margin-bottom: 2px;
+        font-size: 0.9em;
+    }
+}
