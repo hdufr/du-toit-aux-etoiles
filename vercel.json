@@ -1,10 +1,23 @@
 {
     "version": 2,
-    "buildCommand": "echo 'No build step needed'",
-    "installCommand": "echo 'No install step needed'",
-    "outputDirectory": ".",
+    "buildCommand": null,
+    "installCommand": null,
     "framework": "static",
     "routes": [
-        { "src": "/(.*)", "dest": "/$1" }
+        { "src": "/", "dest": "/index.html" },
+        { "src": "/audio/(.*)", "dest": "/audio/$1" },
+        { "src": "/images/(.*)", "dest": "/images/$1" },
+        { "src": "/styles.css", "dest": "/styles.css" },
+        { "src": "/script.js", "dest": "/script.js" },
+        { "src": "/playlist.json", "dest": "/playlist.json" },
+        { "src": "/(.*)", "dest": "/index.html" }
+    ],
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+            ]
+        }
     ]
 }
