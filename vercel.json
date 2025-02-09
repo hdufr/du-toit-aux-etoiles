@@ -3,15 +3,8 @@
     "buildCommand": null,
     "installCommand": null,
     "outputDirectory": ".",
-    "routes": [
-        { "src": "/", "dest": "/index.html" },
-        { "src": "/audio/(.*)", "dest": "/audio/$1" },
-        { "src": "/images/(.*)", "dest": "/images/$1" },
-        { "src": "/styles.css", "dest": "/styles.css" },
-        { "src": "/script.js", "dest": "/script.js" },
-        { "src": "/playlist.json", "dest": "/playlist.json" },
-        { "src": "/(.*)", "dest": "/index.html" }
-    ],
+    "cleanUrls": true,
+    "trailingSlash": false,
     "headers": [
         {
             "source": "/(.*)",
@@ -19,5 +12,14 @@
                 { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
             ]
         }
+    ],
+    "rewrites": [
+        { "source": "/", "destination": "/index.html" },
+        { "source": "/audio/(.*)", "destination": "/audio/$1" },
+        { "source": "/images/(.*)", "destination": "/images/$1" },
+        { "source": "/styles.css", "destination": "/styles.css" },
+        { "source": "/script.js", "destination": "/script.js" },
+        { "source": "/playlist.json", "destination": "/playlist.json" },
+        { "source": "/(.*)", "destination": "/index.html" }
     ]
 }
