@@ -107,7 +107,7 @@ function togglePlayPause() {
 // Écouteur d'événements pour le bouton de lecture/pause personnalisé
 playPauseBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    if (!isTrackLoaded() && tracks.length > 0) {
+    if (currentTrackIndex === -1 && tracks.length > 0) {
         loadTrack(0);
     } else {
         togglePlayPause();
@@ -166,10 +166,20 @@ albumArt.addEventListener('error', function() {
 // Passer à la piste suivante automatiquement après la lecture
 audioPlayer.addEventListener('ended', () => {
     let nextTrack = currentTrackIndex + 1;
-    if (nextTrack >= tracks.length) {
-        nextTrack = 0; // recommencer depuis le début
+    if (nextTrack < tracks.length) {
+        loadTrack(nextTrack);
+    } else {
+        // Réinitialiser le player comme au démarrage
+        albumArt.src = './images/default.jpg';
+        audioPlayer.src = '';
+        currentTrackIndex = -1;
+        progress.style.width = '0%';
+        currentTimeEl.textContent = '0:00';
+        durationEl.textContent = '0:00';
+        // Désélectionner la piste active dans la playlist
+        const items = document.querySelectorAll('#playlist li');
+        items.forEach(item => item.classList.remove('active'));
     }
-    loadTrack(nextTrack);
 });
 
 // Charger les pistes au démarrage
