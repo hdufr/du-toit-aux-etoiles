@@ -1,8 +1,9 @@
 {
     "version": 2,
-    "builds": [
-        { "src": "**/*", "use": "@vercel/static" }
-    ],
+    "buildCommand": "echo 'No build step needed'",
+    "installCommand": "echo 'No install step needed'",
+    "outputDirectory": ".",
+    "framework": "static",
     "routes": [
         { "src": "/(.*)", "dest": "/$1" }
     ]
