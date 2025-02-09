@@ -9,6 +9,9 @@ let currentTrackIndex = 0;
 const audioPlayer = document.getElementById('audioPlayer');
 const playlistElement = document.getElementById('playlist');
 const albumArt = document.getElementById('albumArt');
+const playPauseOverlay = document.getElementById('playPauseOverlay');
+const playIcon = document.querySelector('.play-icon');
+const pauseIcon = document.querySelector('.pause-icon');
 
 // Fonction pour mettre à jour la source de l'image
 function updateAlbumArt(track) {
@@ -16,6 +19,44 @@ function updateAlbumArt(track) {
     const imagePath = `./images/${track.image || 'default.jpg'}`;
     albumArt.src = imagePath;
 }
+
+// Fonction pour mettre à jour l'état des icônes de lecture/pause
+function updatePlayPauseIcons(isPlaying) {
+    playIcon.style.display = isPlaying ? 'none' : 'block';
+    pauseIcon.style.display = isPlaying ? 'block' : 'none';
+}
+
+// Fonction pour basculer la lecture/pause
+function togglePlayPause() {
+    if (audioPlayer.paused) {
+        // Si aucune piste n'est chargée, charger la première
+        if (!audioPlayer.src || audioPlayer.src.endsWith('default.jpg')) {
+            if (tracks.length > 0) {
+                loadTrack(0);
+                return;
+            }
+        }
+        audioPlayer.play();
+    } else {
+        audioPlayer.pause();
+    }
+}
+
+// Écouteur d'événements pour le bouton de superposition
+playPauseOverlay.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    togglePlayPause();
+});
+
+// Mise à jour des icônes lors du changement d'état de lecture
+audioPlayer.addEventListener('play', () => {
+    updatePlayPauseIcons(true);
+});
+
+audioPlayer.addEventListener('pause', () => {
+    updatePlayPauseIcons(false);
+});
 
 // Fonction pour charger et jouer une piste
 function loadTrack(index) {
@@ -86,4 +127,21 @@ function fetchTracks() {
       .catch(error => console.error('Erreur chargement pistes:', error));
 }
 
+// Fonction pour récupérer la version depuis version.txt
+async function updateVersion() {
+    try {
+        const response = await fetch('./version.txt');
+        if (response.ok) {
+            const version = await response.text();
+            const versionElement = document.querySelector('.version');
+            if (versionElement) {
+                versionElement.textContent = `v${version.trim()}`;
+            }
+        }
+    } catch (error) {
+        console.error('Erreur lors de la récupération de la version:', error);
+    }
+}
+
 fetchTracks();
+updateVersion();

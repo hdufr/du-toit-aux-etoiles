@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Du toit aux étoiles</h1>
+        <h1>du toit aux étoiles</h1>
     </header>
 
     <main>
@@ -16,13 +16,23 @@
             <ul id="playlist"></ul>
         </aside>
         <div class="player-container">
-            <img id="albumArt" src="./images/default.jpg" alt="Album Art">
+            <div class="image-wrapper">
+                <div class="image-container">
+                    <img id="albumArt" src="./images/default.jpg" alt="Album Art">
+                    <div class="overlay-controls">
+                        <button id="playPauseOverlay" class="overlay-button">
+                            <span class="play-icon">▶</span>
+                            <span class="pause-icon" style="display: none;">⏸</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
             <audio id="audioPlayer" controls></audio>
         </div>
     </main>
 
     <footer>
-        <p> 2025 Production Du toit aux étoiles. Tous droits réservés.</p>
+        <p> 2025 Production du toit aux étoiles. Tous droits réservés. <span class="version">v0.0.9</span></p>
     </footer>
 
     <script src="./script.js"></script>
