@@ -2,7 +2,8 @@
     "version": 2,
     "buildCommand": null,
     "installCommand": null,
-    "framework": "static",
+    "outputDirectory": ".",
+    "framework": "html",
     "routes": [
         { "src": "/", "dest": "/index.html" },
         { "src": "/audio/(.*)", "dest": "/audio/$1" },
