@@ -9,28 +9,90 @@ let currentTrackIndex = 0;
 const audioPlayer = document.getElementById('audioPlayer');
 const playlistElement = document.getElementById('playlist');
 const albumArt = document.getElementById('albumArt');
-const playPauseOverlay = document.getElementById('playPauseOverlay');
-const playIcon = document.querySelector('.play-icon');
-const pauseIcon = document.querySelector('.pause-icon');
+
+// Remplacer les contrôles natifs par nos propres contrôles
+audioPlayer.removeAttribute('controls');
+const audioControls = document.createElement('div');
+audioControls.className = 'audio-controls';
+audioControls.innerHTML = `
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <div class="time">
+            <span class="current-time">0:00</span>
+            <span class="duration">0:00</span>
+        </div>
+    </div>
+    <button class="play-pause-btn">
+        <span class="play">▶</span>
+        <span class="pause" style="display:none">⏸</span>
+    </button>
+`;
+audioPlayer.parentNode.insertBefore(audioControls, audioPlayer.nextSibling);
+
+const playPauseBtn = audioControls.querySelector('.play-pause-btn');
+const playBtn = playPauseBtn.querySelector('.play');
+const pauseBtn = playPauseBtn.querySelector('.pause');
+const progressBar = audioControls.querySelector('.progress-bar');
+const progress = audioControls.querySelector('.progress');
+const currentTimeEl = audioControls.querySelector('.current-time');
+const durationEl = audioControls.querySelector('.duration');
+
+// Fonction pour formater le temps en minutes:secondes
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    seconds = Math.floor(seconds % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+// Mettre à jour la barre de progression
+function updateProgress() {
+    if (audioPlayer.duration) {
+        const percentage = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        progress.style.width = percentage + '%';
+        currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+        durationEl.textContent = formatTime(audioPlayer.duration);
+    }
+}
+
+// Gérer le clic sur la barre de progression
+progressBar.addEventListener('click', (e) => {
+    const rect = progressBar.getBoundingClientRect();
+    const pos = (e.clientX - rect.left) / rect.width;
+    audioPlayer.currentTime = pos * audioPlayer.duration;
+});
+
+// Mettre à jour la progression pendant la lecture
+audioPlayer.addEventListener('timeupdate', updateProgress);
+
+// Mettre à jour la durée quand les métadonnées sont chargées
+audioPlayer.addEventListener('loadedmetadata', () => {
+    durationEl.textContent = formatTime(audioPlayer.duration);
+});
 
 // Fonction pour mettre à jour la source de l'image
 function updateAlbumArt(track) {
     // Utiliser l'image spécifiée dans le JSON, avec fallback sur default.jpg
-    const imagePath = `./images/${track.image || 'default.jpg'}`;
-    albumArt.src = imagePath;
+    albumArt.src = track.image ? `../images/${track.image}` : '../images/default.jpg';
 }
 
 // Fonction pour mettre à jour l'état des icônes de lecture/pause
 function updatePlayPauseIcons(isPlaying) {
-    playIcon.style.display = isPlaying ? 'none' : 'block';
-    pauseIcon.style.display = isPlaying ? 'block' : 'none';
+    playBtn.style.display = isPlaying ? 'none' : 'block';
+    pauseBtn.style.display = isPlaying ? 'block' : 'none';
+}
+
+// Fonction pour vérifier si une piste est chargée
+function isTrackLoaded() {
+    return audioPlayer.src && !audioPlayer.src.endsWith('default.jpg');
 }
 
 // Fonction pour basculer la lecture/pause
 function togglePlayPause() {
     if (audioPlayer.paused) {
         // Si aucune piste n'est chargée, charger la première
-        if (!audioPlayer.src || audioPlayer.src.endsWith('default.jpg')) {
+        if (!isTrackLoaded()) {
             if (tracks.length > 0) {
                 loadTrack(0);
                 return;
@@ -42,11 +104,14 @@ function togglePlayPause() {
     }
 }
 
-// Écouteur d'événements pour le bouton de superposition
-playPauseOverlay.addEventListener('click', (e) => {
+// Écouteur d'événements pour le bouton de lecture/pause personnalisé
+playPauseBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    e.stopPropagation();
-    togglePlayPause();
+    if (!isTrackLoaded() && tracks.length > 0) {
+        loadTrack(0);
+    } else {
+        togglePlayPause();
+    }
 });
 
 // Mise à jour des icônes lors du changement d'état de lecture
@@ -57,6 +122,16 @@ audioPlayer.addEventListener('play', () => {
 audioPlayer.addEventListener('pause', () => {
     updatePlayPauseIcons(false);
 });
+
+// Intercepter le clic sur le contrôle audio
+audioPlayer.addEventListener('click', (e) => {
+    // Si on clique sur le bouton play et qu'aucune piste n'est chargée
+    if (!isTrackLoaded() && tracks.length > 0) {
+        e.preventDefault();
+        e.stopPropagation();
+        loadTrack(0);
+    }
+}, true);
 
 // Fonction pour charger et jouer une piste
 function loadTrack(index) {
@@ -85,7 +160,7 @@ function loadTrack(index) {
 
 // Remplacer par default.jpg si l'image ne charge pas
 albumArt.addEventListener('error', function() {
-    albumArt.src = './images/default.jpg';
+    albumArt.src = '../images/default.jpg';
 });
 
 // Passer à la piste suivante automatiquement après la lecture
@@ -117,7 +192,7 @@ function fetchTracks() {
           });
           
           // Afficher default.jpg au chargement
-          albumArt.src = './images/default.jpg';
+          albumArt.src = '../images/default.jpg';
           
           // Ne pas démarrer la lecture automatiquement
           // Désactiver le lecteur audio

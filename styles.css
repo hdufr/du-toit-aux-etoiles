@@ -12,15 +12,14 @@
 
 body {
     margin: 0;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: var(--color-background);
-    color: var(--color-text);
+    padding: 0;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    padding: 20px;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
     box-sizing: border-box;
-    overflow-y: auto; /* Permet le défilement si nécessaire */
 }
 
 header {
@@ -43,27 +42,40 @@ h1 {
 }
 
 main {
+    flex: 1;
     display: flex;
-    flex-direction: row;  
+    flex-direction: row;
     width: 100%;
-    flex-grow: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+    box-sizing: border-box;
     gap: 20px;
-    align-items: flex-start;
-    overflow: hidden; /* Empêche le débordement */
+    position: relative;
+    margin-bottom: 50px;
+    align-items: stretch;
+    max-height: calc(100vh - 100px);
 }
 
 aside {
-    flex: 1;
+    width: 300px;
+    flex-shrink: 0;
+    padding: 15px;
     background-color: var(--color-light);
     border-radius: 10px;
-    padding: 15px 5px 15px 15px; /* Réduire le padding à droite */
-    max-height: 70vh; /* Limite la hauteur */
-    overflow-y: auto; /* Ajoute un défilement si nécessaire */
-    align-self: flex-start; /* Aligner au début du conteneur */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+    overflow-y: auto;
+    position: sticky;
+    top: 15px;
+    display: flex;
+    flex-direction: column;
 }
 
 #playlist {
+    flex: 1;
+    overflow-y: auto;
+    margin-right: -5px;
+    padding-right: 5px;
     width: 100%;
     list-style: none;
     margin: 0;
@@ -101,96 +113,121 @@ aside {
 }
 
 .player-container {
-    flex: 2;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    justify-content: flex-start; 
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
     background-color: var(--color-light);
     border-radius: 10px;
-    max-height: 80vh;
-    overflow: hidden;
     box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+    padding: 15px;
+    overflow-y: auto;
 }
 
 .image-wrapper {
-    width: 100%;
-    max-width: 800px;
-    margin: 0;
     flex: 1;
-    display: flex;
-    align-items: center;
-}
-
-.image-container {
-    position: relative;
-    width: 100%;
-}
-
-.image-container img {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    max-height: calc(80vh - 100px);
-    object-fit: contain;
-}
-
-.overlay-controls {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.image-container {
+    width: 100%;
+    max-width: 800px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 8px;
-    pointer-events: none;
+    overflow: hidden;
 }
 
-.image-container:hover .overlay-controls {
-    opacity: 1;
+.image-container img {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 8px;
 }
 
-.overlay-button {
-    pointer-events: auto;
-    background: rgba(255, 255, 255, 0.8);
+.audio-controls {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-light);
+    padding: 15px 0;
+    margin-bottom: 10px;
+}
+
+.progress-container {
+    width: 100%;
+    padding: 0 10px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: var(--color-primary);
+    border-radius: 3px;
+    transition: width 0.1s linear;
+}
+
+.time {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8em;
+    color: var(--color-text);
+}
+
+.play-pause-btn {
+    background: var(--color-primary);
     border: none;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    color: white;
     padding: 0;
+    transition: background-color 0.2s ease;
+}
+
+.play-pause-btn:hover {
+    background: var(--color-secondary);
+}
+
+.play-pause-btn span {
+    font-size: 20px;
+    line-height: 1;
     position: relative;
 }
 
-.overlay-button:hover {
-    transform: scale(1.1);
-    background: rgba(255, 255, 255, 0.9);
-}
-
-.play-icon, .pause-icon {
-    font-size: 24px;
-    color: var(--color-primary);
-    position: absolute;
-    line-height: 1;
-    top: 50%;
-    left: 50%;
-    transform: translate(-45%, -50%);
-}
-
-.pause-icon {
-    transform: translate(-50%, -50%);
+.play-pause-btn .play {
+    margin-left: 3px;
 }
 
 audio {
@@ -200,20 +237,21 @@ audio {
 
 footer {
     width: 100%;
-    background-color: transparent;
+    padding: 6px 0;
+    background-color: var(--color-background);
     color: var(--color-text);
     text-align: center;
-    padding: 15px 0;
-    margin-top: auto; /* Pousse le footer en bas */
-    font-size: 0.9em;
-    font-weight: 300;
+    font-size: 0.8em;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .version {
-    font-size: 0.8em;
+    font-size: 0.9em;
     color: var(--color-text);
-    opacity: 0.7;
-    margin-left: 10px;
 }
 
 /* Media Queries pour le responsive design */
