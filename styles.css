@@ -64,39 +64,47 @@ aside {
     background-color: var(--color-light);
     border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.06);
-    overflow-y: auto;
     position: sticky;
     top: 15px;
     display: flex;
     flex-direction: column;
+    max-width: 100%;
+    box-sizing: border-box;
+    height: auto;
+}
+
+aside audio {
+    width: calc(100% - 80px); /* Ajuster la largeur pour laisser de la place aux boutons */
+    margin: 0;
+    background-color: var(--color-background);
+    border-radius: 5px;
 }
 
 #playlist {
-    flex: 1;
-    overflow-y: auto;
-    margin-right: -5px;
-    padding-right: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     width: 100%;
-    list-style: none;
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding: 0;
     margin: 0;
-    background-color: var(--color-light);
-    border-radius: 10px;
-    box-sizing: border-box; /* Inclure padding et border dans la largeur */
-    padding: 10px 5px 10px 10px;
+    list-style: none;
 }
 
 #playlist li {
-    width: calc(100% - 10px); /* Soustraire le padding */
-    box-sizing: border-box; /* Inclure padding et border dans la largeur */
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
     padding: 10px;
     margin-bottom: 5px;
     background-color: #FFFFFF;
     border-radius: 5px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    border-left: 4px solid transparent;
-    color: var(--color-primary);
 }
 
 #playlist li:hover {
@@ -107,9 +115,11 @@ aside {
 }
 
 #playlist li.active {
-    background-color: var(--color-light);
-    border-left-color: var(--color-accent);
-    color: var(--color-primary);
+    background-color: var(--color-primary);
+    color: var(--color-light);
+    font-weight: bold;
+    border-radius: 5px;
+    transition: all 0.3s ease;
 }
 
 .player-container {
@@ -158,19 +168,101 @@ aside {
 }
 
 .audio-controls {
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
     gap: 10px;
-    background: var(--color-light);
-    padding: 15px 0;
-    margin-bottom: 10px;
+    width: 100%;
 }
 
 .progress-container {
     width: 100%;
-    padding: 0 10px;
+    margin-bottom: 10px;
+}
+
+.track-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    min-height: 50px; /* Maintenir un espace constant */
+    position: relative;
+}
+
+.track-nav-hidden {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 0 !important;
+    height: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+}
+
+.track-nav-btn, .play-pause-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background-color: var(--color-light);
+    border: 2px solid var(--color-primary);
+    border-radius: 50%;
+    color: var(--color-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.8em;
+    padding: 0;
+    outline: none;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.track-nav-btn:hover, .play-pause-btn:hover {
+    background-color: transparent;
+    color: var(--color-primary);
+    transform: scale(1.05);
+    border-radius: 50%;
+}
+
+.track-nav-btn:active, .play-pause-btn:active {
+    transform: scale(0.95);
+    border-radius: 50%;
+}
+
+.play-pause-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background-color: var(--color-light);
+    border: 2px solid var(--color-primary);
+    border-radius: 50%;
+    color: var(--color-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+    outline: none;
+}
+
+.play-pause-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--color-text);
+    cursor: pointer;
+}
+
+.play-pause-btn svg.play,
+.play-pause-btn svg.pause {
+    pointer-events: none;
 }
 
 .progress-bar {
@@ -201,35 +293,6 @@ aside {
     color: var(--color-text);
 }
 
-.play-pause-btn {
-    background: var(--color-primary);
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    color: white;
-    padding: 0;
-    transition: background-color 0.2s ease;
-}
-
-.play-pause-btn:hover {
-    background: var(--color-secondary);
-}
-
-.play-pause-btn span {
-    font-size: 20px;
-    line-height: 1;
-    position: relative;
-}
-
-.play-pause-btn .play {
-    margin-left: 3px;
-}
-
 audio {
     width: 100%;
     margin-bottom: 20px;
@@ -256,32 +319,107 @@ footer {
 
 /* Media Queries pour le responsive design */
 @media screen and (max-width: 768px) {
-    body {
-        padding: 10px;
-        flex-direction: column;
-    }
-
     main {
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
+        flex-direction: column !important;
+        max-height: none !important;
+        align-items: stretch !important;
     }
 
     aside {
-        width: 90%; /* Largeur réduite */
-        max-width: 400px; /* Largeur maximale */
-        align-self: center; /* Centrage horizontal */
+        width: 100% !important;
+        max-width: 100% !important;
+        position: static !important;
+        height: auto !important;
+        min-height: fit-content !important;
+        flex-shrink: 0 !important;
+        margin-bottom: 15px !important;
+        overflow: visible !important;
+        align-self: flex-start !important;
+        padding: 15px !important;
     }
 
-    .player-container {
-        width: 90%; /* Largeur réduite */
-        max-width: 400px; /* Largeur maximale */
-        align-self: center; /* Centrage horizontal */
+    .audio-controls {
+        width: 100% !important;
     }
 
-    #albumArt {
-        max-width: 100%;
-        max-height: 50vh;
+    #playlist {
+        width: 100% !important;
+        height: auto !important;
+        max-height: fit-content !important;
+        overflow: visible !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    #playlist li {
+        width: 100% !important;
+        max-width: 100% !important;
+        display: block !important;
+        margin-bottom: 5px !important;
+    }
+
+    .image-wrapper {
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .image-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: 50vh !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+    }
+
+    .image-container img {
+        width: auto !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: 50vh !important;
+        object-fit: contain !important;
+        object-position: top center !important;
+    }
+
+    .track-nav-btn, .play-pause-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 50px !important;
+        height: 50px !important;
+        background-color: var(--color-light) !important;
+        border: 2px solid var(--color-primary) !important;
+        border-radius: 50% !important;
+        color: var(--color-primary) !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        font-size: 0.8em !important;
+        padding: 0 !important;
+        outline: none !important;
+        font-weight: bold !important;
+        text-transform: uppercase !important;
+    }
+
+    .track-nav-btn:hover, .play-pause-btn:hover {
+        background-color: transparent !important;
+        color: var(--color-primary) !important;
+        transform: scale(1.05) !important;
+    }
+
+    .track-nav-btn:active, .play-pause-btn:active {
+        transform: scale(0.95) !important;
+    }
+
+    .play-pause-btn .play, 
+    .play-pause-btn .pause {
+        color: var(--color-primary) !important;
     }
 }
 

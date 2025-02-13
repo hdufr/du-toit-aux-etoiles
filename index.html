@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Du toit aux étoiles</title>
     <link rel="stylesheet" href="./styles.css">
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <link rel="icon" type="image/png" href="./favicon.png">
+    <link rel="shortcut icon" type="image/png" href="./favicon.png">
+    <link rel="apple-touch-icon" type="image/png" href="./favicon.png">
 </head>
 <body>
     <header>
@@ -13,6 +17,30 @@
 
     <main>
         <aside>
+            <div class="audio-controls">
+                <audio id="audioPlayer"></audio>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="time">
+                        <span class="current-time">0:00</span>
+                        <span class="duration">0:00</span>
+                    </div>
+                </div>
+                <div class="track-navigation">
+                    <button id="prevTrack" class="track-nav-btn track-nav-hidden" aria-label="Piste précédente">Préc</button>
+                    <button class="play-pause-btn">
+                        <svg class="play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <svg class="pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display:none">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                        </svg>
+                    </button>
+                    <button id="nextTrack" class="track-nav-btn track-nav-hidden" aria-label="Piste suivante">Suiv</button>
+                </div>
+            </div>
             <ul id="playlist"></ul>
         </aside>
         <div class="player-container">
@@ -21,7 +49,6 @@
                     <img id="albumArt" src="../images/default.jpg" alt="Album Art">
                 </div>
             </div>
-            <audio id="audioPlayer" controls></audio>
         </div>
     </main>
 
