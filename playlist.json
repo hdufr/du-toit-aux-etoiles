@@ -29,6 +29,12 @@
             "title": "Place Colette",
             "image": "Place Colette.jpg",
             "order": 5
+        },
+        {
+            "filename": "Les Potos (Remastered).mp3",
+            "title": "Les Potos",
+            "image": "Les Potos.jpg",
+            "order": 6
         }
     ]
 }

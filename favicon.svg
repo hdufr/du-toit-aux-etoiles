@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <defs>
+        <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="100%" stop-color="#FFD700"/>
+        </linearGradient>
+        
+        <filter id="starGlow">
+            <feGaussianBlur stdDeviation="3"/>
+            <feComponentTransfer>
+                <feFuncA type="linear" slope="1.5" intercept="0"/>
+            </feComponentTransfer>
+        </filter>
+    </defs>
+
+    <style>
+        @keyframes twinkle {
+            0%, 100% { 
+                transform: scale(0.9); 
+                opacity: 0.7;
+            }
+            50% { 
+                transform: scale(1.1); 
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <!-- Étoile de gauche -->
+    <path 
+        d="M30,40 L35,50 L45,52 L38,60 L42,70 L30,64 L18,70 L22,60 L15,52 L25,50 Z" 
+        fill="url(#starGradient)"
+        filter="url(#starGlow)"
+        style="animation: twinkle 2s infinite; transform-origin: center;"
+    />
+
+    <!-- Étoile de droite -->
+    <path 
+        d="M70,50 L75,60 L85,62 L78,70 L82,80 L70,74 L58,80 L62,70 L55,62 L65,60 Z" 
+        fill="url(#starGradient)"
+        filter="url(#starGlow)"
+        style="animation: twinkle 2s infinite 1s; transform-origin: center;"
+    />
+</svg>
