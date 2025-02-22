@@ -23,32 +23,21 @@
                     <div class="progress-bar">
                         <div class="progress"></div>
                     </div>
-                    <div class="time">
-                        <span class="current-time">0:00</span>
-                        <span class="duration">0:00</span>
+                    <div class="time-display">
+                        <span class="current-time">0:00</span><span class="duration">0:00</span>
                     </div>
                 </div>
-                <div class="track-navigation">
-                    <button id="prevTrack" class="track-nav-btn track-nav-hidden" aria-label="Piste précédente">Préc</button>
-                    <button class="play-pause-btn">
-                        <svg class="play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
-                        <svg class="pause" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display:none">
-                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                        </svg>
-                    </button>
-                    <button id="nextTrack" class="track-nav-btn track-nav-hidden" aria-label="Piste suivante">Suiv</button>
+                <div class="controls">
+                    <button class="prev-track">⏮</button>
+                    <button class="play-pause">▶</button>
+                    <button class="next-track">⏭</button>
                 </div>
             </div>
-            <ul id="playlist"></ul>
+            <div class="tabs"></div>
+            <div class="tabcontent-container"></div>
         </aside>
-        <div class="player-container">
-            <div class="image-wrapper">
-                <div class="image-container">
-                    <img id="albumArt" src="../images/default.jpg" alt="Album Art">
-                </div>
-            </div>
+        <div class="album-art-container">
+            <img class="album-art" src="./images/default.jpg" alt="Album Art">
         </div>
     </main>
 
@@ -56,6 +45,99 @@
         <p> 2025 Production du toit aux étoiles. Tous droits réservés. <span class="version">v0.0.9</span></p>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioPlayer = document.querySelector('#audioPlayer');
+            const albumArt = document.querySelector('.album-art');
+            
+            fetch('playlist.json')
+                .then(response => response.json())
+                .then(data => {
+                    const tabs = {};
+                    const tabContent = {};
+
+                    data.tracks.forEach(track => {
+                        const { onglet, title, filename, image } = track;
+                        
+                        // Créer un onglet s'il n'existe pas déjà
+                        if (!tabs[onglet]) {
+                            tabs[onglet] = true;
+                            const tabButton = document.createElement('button');
+                            tabButton.className = 'tablinks';
+                            tabButton.innerText = onglet;
+                            tabButton.onclick = function(event) {
+                                openTab(event, onglet);
+                            };
+                            document.querySelector('.tabs').appendChild(tabButton);
+
+                            // Créer le contenu de l'onglet
+                            const contentDiv = document.createElement('div');
+                            contentDiv.className = 'tabcontent';
+                            contentDiv.id = onglet;
+
+                            // Créer la liste de lecture pour cet onglet
+                            const playlist = document.createElement('ul');
+                            playlist.className = 'playlist';
+                            contentDiv.appendChild(playlist);
+
+                            document.querySelector('.tabcontent-container').appendChild(contentDiv);
+                            tabContent[onglet] = contentDiv;
+                        }
+
+                        // Créer l'élément de la liste
+                        const listItem = document.createElement('li');
+                        listItem.textContent = title;
+                        listItem.onclick = function() {
+                            if (audioPlayer && albumArt) {
+                                // Mettre à jour la source audio
+                                audioPlayer.src = `./audio/${filename}`;
+                                // Mettre à jour l'image
+                                albumArt.src = `./images/${image}`;
+                                // Lancer la lecture
+                                audioPlayer.play()
+                                    .catch(error => console.error('Erreur de lecture:', error));
+                                
+                                // Mettre à jour la classe active
+                                document.querySelectorAll('.playlist li').forEach(item => {
+                                    item.classList.remove('active');
+                                });
+                                this.classList.add('active');
+                            }
+                        };
+
+                        if (tabContent[onglet]) {
+                            tabContent[onglet].querySelector('.playlist').appendChild(listItem);
+                        } else {
+                            console.error('Tab content for', onglet, 'is not defined.');
+                        }
+                    });
+
+                    // Ouvrir le premier onglet par défaut
+                    const firstTab = Object.keys(tabs)[0];
+                    if (firstTab) {
+                        document.querySelector('.tablinks').click();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading playlist:', error);
+                });
+        });
+
+        // Fonction pour gérer les onglets
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
     <script src="./script.js"></script>
 </body>
 </html>

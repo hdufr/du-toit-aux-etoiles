@@ -4,37 +4,50 @@
       "filename": "Dimanche Cocon.mp3",
       "title": "Dimanche Cocon",
       "image": "DimancheCocon.jpg",
-      "order": 1
+      "order": 1,
+      "onglet": "jazz"
     },
     {
       "filename": "Les Deux Mégalomanes.mp3",
       "title": "Les Deux Mégalomanes",
       "image": "DeuxMegalos.jpg",
-      "order": 2
+      "order": 2,
+      "onglet": "jazz"
     },
     {
       "filename": "Oh Mont Thabor.mp3",
       "title": "Oh Mont Thabor",
       "image": "MontThabor.jpg",
-      "order": 3
+      "order": 3,
+      "onglet": "jazz"
     },
     {
       "filename": "Sous la Lune Insomniaque.mp3",
       "title": "Sous la Lune Insomniaque",
       "image": "insomniaque.jpg",
-      "order": 4
+      "order": 4,
+      "onglet": "jazz"
     },
     {
       "filename": "Place Colette (Remastered).mp3",
       "title": "Place Colette",
       "image": "Place Colette.jpg",
-      "order": 5
+      "order": 5,
+      "onglet": "jazz"
     },
     {
       "filename": "Les Potos (Remastered).mp3",
       "title": "Les Potos",
       "image": "Les Potos.jpg",
-      "order": 6
+      "order": 6,
+      "onglet": "jazz"
+    },
+    {
+      "filename": "À Table.mp3",
+      "title": "À Table",
+      "image": "titre_a_table_image.jpeg",
+      "order": 7,
+      "onglet": "Funk"
     }
   ]
 }
