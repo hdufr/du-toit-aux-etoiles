@@ -1,40 +1,40 @@
 {
-    "tracks": [
-        {
-            "filename": "Dimanche Cocon.mp3",
-            "title": "Dimanche Cocon",
-            "image": "DimancheCocon.jpg",
-            "order": 1
-        },
-        {
-            "filename": "Les Deux Mégalomanes.mp3", 
-            "title": "Les Deux Mégalomanes",
-            "image": "DeuxMegalos.jpg",
-            "order": 2
-        },
-        {
-            "filename": "Oh Mont Thabor.mp3",
-            "title": "Oh Mont Thabor", 
-            "image": "MontThabor.jpg",
-            "order": 3
-        },
-        {
-            "filename": "Sous la Lune Insomniaque.mp3",
-            "title": "Sous la Lune Insomniaque",
-            "image": "insomniaque.jpg", 
-            "order": 4
-        },
-        {
-            "filename": "Place Colette.mp3",
-            "title": "Place Colette",
-            "image": "Place Colette.jpg",
-            "order": 5
-        },
-        {
-            "filename": "Les Potos (Remastered).mp3",
-            "title": "Les Potos",
-            "image": "Les Potos.jpg",
-            "order": 6
-        }
-    ]
+  "tracks": [
+    {
+      "filename": "Dimanche Cocon.mp3",
+      "title": "Dimanche Cocon",
+      "image": "DimancheCocon.jpg",
+      "order": 1
+    },
+    {
+      "filename": "Les Deux Mégalomanes.mp3",
+      "title": "Les Deux Mégalomanes",
+      "image": "DeuxMegalos.jpg",
+      "order": 2
+    },
+    {
+      "filename": "Oh Mont Thabor.mp3",
+      "title": "Oh Mont Thabor",
+      "image": "MontThabor.jpg",
+      "order": 3
+    },
+    {
+      "filename": "Sous la Lune Insomniaque.mp3",
+      "title": "Sous la Lune Insomniaque",
+      "image": "insomniaque.jpg",
+      "order": 4
+    },
+    {
+      "filename": "Place Colette (Remastered).mp3",
+      "title": "Place Colette",
+      "image": "Place Colette.jpg",
+      "order": 5
+    },
+    {
+      "filename": "Les Potos (Remastered).mp3",
+      "title": "Les Potos",
+      "image": "Les Potos.jpg",
+      "order": 6
+    }
+  ]
 }
