@@ -239,7 +239,24 @@ function updateNavigationButtons() {
     }
 }
 
+// Fonction pour récupérer la version depuis version.txt
+async function updateVersion() {
+    try {
+        const response = await fetch('./version.txt');
+        if (response.ok) {
+            const version = await response.text();
+            const versionElement = document.querySelector('.version');
+            if (versionElement) {
+                versionElement.textContent = `v${version.trim()}`;
+            }
+        }
+    } catch (error) {
+        console.error('Erreur lors de la récupération de la version:', error);
+    }
+}
+
 // Initialisation
 document.addEventListener('DOMContentLoaded', () => {
     fetchTracks();
+    updateVersion();
 });
