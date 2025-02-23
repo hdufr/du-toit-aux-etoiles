@@ -52,7 +52,7 @@ main {
     box-sizing: border-box;
     gap: 20px;
     position: relative;
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
     align-items: stretch;
 }
 
@@ -69,7 +69,7 @@ aside {
     flex-direction: column;
     gap: 15px;
     height: fit-content;
-    max-height: calc(100vh - 30px);
+    max-height: 70vh;
     overflow-y: auto;
 }
 
@@ -191,30 +191,18 @@ aside {
 }
 
 .album-art-container {
-    width: 45%;
-    max-width: 600px;
-    min-width: 400px;
-    flex-shrink: 0;
-    position: sticky;
     top: 15px;
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    background-color: var(--color-light);
+    flex-direction: column-reverse;
+    justify-content: center;
+    max-height: 70vh;
+    overflow-y: auto;
     border-radius: 10px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.06);
-    padding: 15px;
-    height: fit-content;
 }
 
-.album-art {
-    max-width: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    display: block;
+img.album-art {
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.06);
 }
 
 .progress-container {
@@ -271,17 +259,7 @@ aside {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.controls button:hover {
-    background-color: var(--color-accent);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
 
-.controls button:active {
-    transform: scale(0.95) translateY(0);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
 
 footer {
     text-align: center;
@@ -323,26 +301,9 @@ footer {
         padding: 10px;
     }
 
-    .image-container {
-        width: 90%;
-        max-width: 90%;
-        height: auto;
-        padding: 0;
-        margin: 0 auto;
-        box-sizing: border-box;
-    }
-
-    .image-container img {
-        width: 100%;
-        height: auto;
-        object-fit: contain;
-    }
-
     .album-art-container {
-        width: 90%;
-        max-width: 90%;
-        margin: 0 auto;
-        padding: 10px;
+        width: 100%;
+        margin: 0;
         box-sizing: border-box;
     }
 }
@@ -391,33 +352,6 @@ footer {
         margin-bottom: 5px !important;
     }
 
-    .image-wrapper {
-        display: flex !important;
-        justify-content: flex-start !important;
-        align-items: flex-start !important;
-        width: 100% !important;
-        height: auto !important;
-    }
-
-    .image-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: auto !important;
-        max-height: 50vh !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: flex-start !important;
-    }
-
-    .image-container img {
-        width: auto !important;
-        max-width: 100% !important;
-        height: auto !important;
-        max-height: 50vh !important;
-        object-fit: contain !important;
-        object-position: top center !important;
-    }
-
     .track-nav-btn, .play-pause-btn {
         display: flex !important;
         align-items: center !important;
@@ -437,9 +371,15 @@ footer {
         text-transform: uppercase !important;
     }
 
+    button.play-pause {
+        background-color: transparent !important; /* Supprime le fond */
+        color: var(--color-primary) !important;
+        border: none; /* Supprime toute bordure si nécessaire */
+    }
+
     .track-nav-btn:hover, .play-pause-btn:hover {
         background-color: transparent !important;
-        color: var(--color-primary) !important;
+        /* color: var(--color-primary) !important; */
         transform: scale(1.05) !important;
     }
 
@@ -447,11 +387,11 @@ footer {
         transform: scale(0.95) !important;
     }
 
-    .play-pause-btn .play, 
+    /* .play-pause-btn .play, 
     .play-pause-btn .pause {
         color: var(--color-primary) !important;
-    }
-}
+    }*/
+} 
 
 /* Media Queries pour les très petits écrans */
 @media screen and (max-width: 480px) {
@@ -470,10 +410,6 @@ footer {
         align-self: center; /* Centrage horizontal */
     }
 
-    #albumArt {
-        max-height: 40vh;
-    }
-
     #playlist li {
         padding: 6px;
         margin-bottom: 2px;
@@ -481,15 +417,17 @@ footer {
     }
 }
 
-/* Ajustements responsifs */
-@media screen and (max-width: 1400px) {
-    .album-art-container {
-        width: 350px;
-    }
+/* Media Queries pour les grands écrans */
+@media screen and (min-width: 769px) {
+    .controls button:hover {
+    background-color: var(--color-accent);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-@media screen and (max-width: 1200px) {
-    .album-art-container {
-        width: 300px;
-    }
+.controls button:active {
+    transform: scale(0.95) translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
 }

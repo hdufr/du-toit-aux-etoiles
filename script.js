@@ -55,7 +55,7 @@ function updateAlbumArt(track) {
 // Fonction pour mettre à jour les icônes de lecture/pause
 function updatePlayPauseIcons(playing) {
     if (playPauseBtn) {
-        playPauseBtn.textContent = playing ? '⏸' : '▶';
+        playPauseBtn.textContent = playing ? '||' : '▶';
     }
 }
 
