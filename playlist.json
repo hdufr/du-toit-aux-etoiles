@@ -43,10 +43,17 @@
       "onglet": "jazz"
     },
     {
+      "filename": "Docteur Fol'Amour.mp3",
+      "title": "Docteur Fol'Amour",
+      "image": "Docteur Fol'Amour.jpg",
+      "order": 7,
+      "onglet": "jazz"
+    },
+    {
       "filename": "À Table.mp3",
       "title": "À Table",
       "image": "titre_a_table_image.jpeg",
-      "order": 7,
+      "order": 8,
       "onglet": "Funk"
     }
   ]
