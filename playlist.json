@@ -55,6 +55,13 @@
       "image": "titre_a_table_image.jpeg",
       "order": 8,
       "onglet": "Funk"
+    },
+    {
+      "filename": "Le Bikeur Électrique.mp3",
+      "title": "Le Bikeur Électrique",
+      "image": "Le Bikeur Électrique.jpeg",
+      "order": 9,
+      "onglet": "Funk"
     }
   ]
 }
