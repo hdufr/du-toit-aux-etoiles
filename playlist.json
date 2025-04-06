@@ -62,6 +62,13 @@
       "image": "Le Bikeur Électrique.jpeg",
       "order": 9,
       "onglet": "Funk"
+    },
+    {
+      "filename": "beluga.mp3",
+      "title": "Beluga",
+      "image": "beluga.jpg",
+      "order":  10,
+      "onglet": "Electro"
     }
   ]
 }
