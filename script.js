@@ -15,6 +15,9 @@ const progress = document.querySelector('.progress');
 const currentTimeDisplay = document.querySelector('.current-time');
 const durationDisplay = document.querySelector('.duration');
 const albumArt = document.querySelector('.album-art');
+// Ajout des sélecteurs pour les onglets et le contenu
+const tabsContainer = document.querySelector('.tabs'); 
+const tabContentContainer = document.querySelector('.tabcontent-container');
 
 // Fonction pour formater le temps en minutes:secondes
 function formatTime(seconds) {
@@ -100,27 +103,130 @@ if (audioPlayer) {
     });
 }
 
-// Charger les pistes au démarrage
+// Fonction déplacée depuis index.html pour gérer les onglets
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        // Attention à ne pas ajouter d'espace en trop si " active" n'existe pas
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    const currentTabContent = document.getElementById(tabName);
+    if (currentTabContent) { // Vérifier si l'élément existe
+        currentTabContent.style.display = "block";
+    }
+    // Gérer l'événement ou l'appel programmatique
+    if (evt && evt.currentTarget) { 
+       evt.currentTarget.className += " active";
+    } else {
+        // Trouver le bouton correspondant au tabName et ajouter la classe 'active'
+        const buttons = document.querySelectorAll('.tablinks');
+        buttons.forEach(button => {
+            if (button.innerText === tabName) {
+                // S'assurer de ne pas ajouter la classe si elle existe déjà
+                if (!button.className.includes(' active')) {
+                     button.className += " active";
+                }
+            }
+        });
+    }
+}
+
+// Charger les pistes, créer les onglets et la playlist
 async function fetchTracks() {
     try {
         const response = await fetch('playlist.json');
         const data = await response.json();
-        
+
+        // Trier les pistes par ordre
         tracks = data.tracks.sort((a, b) => a.order - b.order);
-        console.log('Pistes chargées:', tracks);
-        
-        // Forcer la mise à jour des boutons de navigation
+        console.log('Pistes chargées et triées:', tracks);
+
+        // Vider les conteneurs précédents
+        if (tabsContainer) tabsContainer.innerHTML = '';
+        if (tabContentContainer) tabContentContainer.innerHTML = '';
+
+        const createdTabs = {};
+        const tabPlaylists = {}; // Pour stocker les éléments UL de chaque onglet
+
+        // Générer les onglets et les éléments de la liste à partir des pistes triées
+        tracks.forEach((track, index) => { // Utiliser l'index du tableau trié
+            const { onglet, title } = track;
+
+            // Créer l'onglet s'il n'existe pas déjà
+            if (!createdTabs[onglet] && tabsContainer && tabContentContainer) {
+                createdTabs[onglet] = true;
+
+                // Bouton d'onglet
+                const tabButton = document.createElement('button');
+                tabButton.className = 'tablinks';
+                tabButton.innerText = onglet;
+                tabButton.onclick = function(event) {
+                    openTab(event, onglet);
+                };
+                tabsContainer.appendChild(tabButton);
+
+                // Contenu de l'onglet (div)
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'tabcontent';
+                contentDiv.id = onglet;
+                contentDiv.style.display = 'none'; // Cacher initialement
+
+                // Liste de lecture (ul) dans le contenu de l'onglet
+                const playlistUl = document.createElement('ul');
+                playlistUl.className = 'playlist';
+                contentDiv.appendChild(playlistUl);
+                tabContentContainer.appendChild(contentDiv);
+                tabPlaylists[onglet] = playlistUl; // Stocker la référence UL
+            }
+
+            // Créer l'élément de la liste (li)
+            const listItem = document.createElement('li');
+            listItem.textContent = title;
+            // Attacher le bon gestionnaire de clic avec l'index correct
+            listItem.onclick = function() {
+                loadTrack(index); // Appeler loadTrack avec l'index du tableau trié
+            };
+
+            // Ajouter le LI au bon UL d'onglet
+            if (tabPlaylists[onglet]) {
+                tabPlaylists[onglet].appendChild(listItem);
+            } else {
+                 console.error(`Conteneur UL pour l'onglet ${onglet} non défini.`); 
+            }
+        });
+
+        // Réinitialiser l'état du lecteur APRES la boucle
         currentTrackIndex = -1;
         updateNavigationButtons();
-        
-        // Afficher l'image par défaut
         if (albumArt) {
-            albumArt.src = './images/default.jpg';
+            albumArt.src = './images/default.jpg'; // Réinitialiser l'image
         }
+        if(audioPlayer){
+             audioPlayer.src = ''; // Vider la source audio
+             if (currentTimeDisplay) currentTimeDisplay.textContent = formatTime(0);
+             if (durationDisplay) durationDisplay.textContent = formatTime(0);
+             if (progress) progress.style.width = '0%';
+             updatePlayPauseIcons(false); // Afficher l'icône pause
+        }
+
+        // Ouvrir le premier onglet par défaut APRES la boucle
+        const firstTabName = Object.keys(createdTabs)[0];
+        if (firstTabName && tabsContainer) {
+             const firstButton = tabsContainer.querySelector('.tablinks');
+             if(firstButton){
+                 // Appeler openTab directement pour l'ouverture programmatique
+                 // Passer null comme événement
+                 openTab(null, firstTabName); 
+             }
+        }
+
     } catch (error) {
-        console.error('Erreur lors du chargement des pistes:', error);
-        currentTrackIndex = -1;
-        updateNavigationButtons();
+        console.error('Erreur lors du chargement et de la génération de la playlist:', error);
     }
 }
 
@@ -130,6 +236,11 @@ function loadTrack(index) {
         currentTrackIndex = index;
         const track = tracks[index];
         
+        // Activer l'onglet de la piste en cours
+        if (track && track.onglet) {
+            openTab(null, track.onglet);
+        }
+
         if (audioPlayer) {
             audioPlayer.src = `./audio/${track.filename}`;
             audioPlayer.load();
@@ -154,39 +265,26 @@ function loadTrack(index) {
     }
 }
 
-// Fonction pour mettre à jour la sélection dans la playlist
+// Fonction simplifiée pour mettre à jour la sélection (classe active)
 function updatePlaylistSelection(currentTrack) {
-    // Retirer la classe active de tous les éléments
-    document.querySelectorAll('.playlist li').forEach(item => {
-        item.classList.remove('active');
-    });
-    
-    // Trouver et activer l'élément correspondant à la piste actuelle
+    // Vérifier si currentTrack est valide
+    if (!currentTrack || !currentTrack.title) {
+        // Retirer la classe active de tous si aucune piste valide n'est jouée
+        document.querySelectorAll('.playlist li').forEach(item => {
+            item.classList.remove('active');
+        });
+        return;
+    }
+
+    // Trouver tous les éléments li dans toutes les playlists
     const playlistItems = document.querySelectorAll('.playlist li');
+
     playlistItems.forEach(item => {
+        // Retirer la classe active de tous
+        item.classList.remove('active');
+        // Ajouter la classe active si le texte correspond au titre de la piste actuelle
         if (item.textContent === currentTrack.title) {
             item.classList.add('active');
-            
-            // S'assurer que l'onglet parent est visible
-            const tabContent = item.closest('.tabcontent');
-            if (tabContent) {
-                // Cacher tous les onglets
-                document.querySelectorAll('.tabcontent').forEach(tab => {
-                    tab.style.display = 'none';
-                });
-                
-                // Afficher l'onglet actuel
-                tabContent.style.display = 'block';
-                
-                // Activer le bouton d'onglet correspondant
-                const tabId = tabContent.id;
-                document.querySelectorAll('.tablinks').forEach(tab => {
-                    tab.classList.remove('active');
-                    if (tab.textContent === tabId) {
-                        tab.classList.add('active');
-                    }
-                });
-            }
         }
     });
 }

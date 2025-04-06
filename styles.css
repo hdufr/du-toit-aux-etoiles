@@ -79,7 +79,7 @@ aside {
 
 .tabs {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap;  /* Réactivé pour permettre le retour à la ligne */
     gap: 8px;
     margin: 0;
     width: 100%;
@@ -89,31 +89,37 @@ aside {
 .tablinks {
     padding: 12px 20px;
     border: none;
-    background-color: var(--color-light);
-    color: var(--color-text);
+    background-color: #F0FFF0; /* Honeydew */
+    color: #556B2F; /* DarkOliveGreen (texte) */
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
     font-size: 1.1em;
     font-weight: 500;
-    flex: 1;
     min-width: 120px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex: 1; /* Réactivé pour permettre l'étirement */
+    /* Ajouter une bordure transparente pour réserver l'espace */
+    border-bottom: 3px solid transparent; 
+    padding-bottom: 9px; /* Compenser hauteur bordure active/defaut */
 }
 
 .tablinks:hover {
-    background-color: var(--color-accent);
-    color: white;
+    background-color: #BEEFBE; /* Vert pâle distinctif */
+    color: #2F4F4F; /* DarkSlateGray (texte survol) */
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .tablinks.active {
-    background-color: var(--color-primary);
+    background-color: #8FBC8F; /* DarkSeaGreen (Vert Amande) */
     color: white;
-    transform: translateY(-2px);
+    transform: translateY(0); /* Ne pas soulever l'actif pour la bordure */
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    /* Ajouter une bordure inférieure distinctive */
+    border-bottom: 3px solid #556B2F; /* DarkOliveGreen (Bordure) */
+    padding-bottom: 9px; /* Garder le même padding que l'état par défaut */
 }
 
 .tabcontent-container {
