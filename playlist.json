@@ -64,10 +64,17 @@
       "onglet": "Funk"
     },
     {
+      "filename": "Danser Avec Toi.mp3",
+      "title": "Danser Avec Toi",
+      "image": "Danser_avec_toi_cover.jpeg",
+      "order": 10,
+      "onglet": "Funk"
+    },
+    {
       "filename": "Beluga.mp3",
       "title": "Beluga",
       "image": "beluga.jpg",
-      "order":  10,
+      "order": 11,
       "onglet": "Electro"
     }
   ]
