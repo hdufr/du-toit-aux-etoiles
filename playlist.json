@@ -1,72 +1,72 @@
 {
   "tracks": [
     {
-      "filename": "Dimanche Cocon.mp3",
+      "filename": "DimancheCocon.mp3",
       "title": "Dimanche Cocon",
       "image": "DimancheCocon.jpg",
       "order": 1,
       "onglet": "jazz"
     },
     {
-      "filename": "Les Deux Mégalomanes.mp3",
+      "filename": "LesDeuxMegalomanes.mp3",
       "title": "Les Deux Mégalomanes",
       "image": "DeuxMegalos.jpg",
       "order": 2,
       "onglet": "jazz"
     },
     {
-      "filename": "Oh Mont Thabor.mp3",
+      "filename": "OhMontThabor.mp3",
       "title": "Oh Mont Thabor",
       "image": "MontThabor.jpg",
       "order": 3,
       "onglet": "jazz"
     },
     {
-      "filename": "Sous la Lune Insomniaque.mp3",
+      "filename": "SousLaLuneInsomniaque.mp3",
       "title": "Sous la Lune Insomniaque",
       "image": "insomniaque.jpg",
       "order": 4,
       "onglet": "jazz"
     },
     {
-      "filename": "Place Colette (Remastered).mp3",
+      "filename": "PlaceColetteRemastered.mp3",
       "title": "Place Colette",
-      "image": "Place Colette.jpg",
+      "image": "PlaceColette.jpg",
       "order": 5,
       "onglet": "jazz"
     },
     {
-      "filename": "Les Potos (Remastered).mp3",
+      "filename": "LesPotosRemastered.mp3",
       "title": "Les Potos",
-      "image": "Les Potos.jpg",
+      "image": "LesPotos.jpg",
       "order": 6,
       "onglet": "jazz"
     },
     {
-      "filename": "Docteur Fol'Amour.mp3",
+      "filename": "DocteurFolAmour.mp3",
       "title": "Docteur Fol'Amour",
-      "image": "Docteur Fol'Amour.jpg",
+      "image": "DocteurFolAmour.jpg",
       "order": 7,
       "onglet": "jazz"
     },
     {
-      "filename": "À Table.mp3",
+      "filename": "ATable.mp3",
       "title": "À Table",
-      "image": "titre_a_table_image.jpeg",
+      "image": "TitreATableImage.jpeg",
       "order": 8,
       "onglet": "Funk"
     },
     {
-      "filename": "Le Bikeur Électrique.mp3",
+      "filename": "LeBikeurElectrique.mp3",
       "title": "Le Bikeur Électrique",
-      "image": "Le Bikeur Électrique.jpeg",
+      "image": "LeBikeurElectrique.jpeg",
       "order": 9,
       "onglet": "Funk"
     },
     {
-      "filename": "Danser Avec Toi.mp3",
+      "filename": "DanserAvecToi.mp3",
       "title": "Danser Avec Toi",
-      "image": "Danser_avec_toi_cover.jpeg",
+      "image": "DanserAvecToiCover.jpeg",
       "order": 10,
       "onglet": "Funk"
     },
@@ -76,6 +76,14 @@
       "image": "beluga.jpg",
       "order": 11,
       "onglet": "Electro"
+    },
+    {
+      "filename": "CelluleEnVelours.mp3",
+      "title": "Cellule En Velours",
+      "image": "CelluleEnVelours.jpeg",
+      "order": 12,
+      "onglet": "Rock"
     }
+
   ]
 }

@@ -206,6 +206,29 @@ aside {
     border-radius: 10px;
 }
 
+.album-art-container {
+    width: 100%; /* Prend toute la largeur disponible dans son parent */
+    /* max-width: 800px; */ /* Optionnel: si vous voulez limiter la largeur max de l'album-art-container */
+    height: 450px;     /* Hauteur fixe. Ajustez cette valeur selon vos besoins. */
+                       /* Ceci est la valeur la plus importante pour éviter l'ascenseur vertical du conteneur d'image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    overflow: hidden;    /* Très important: empêche l'image de déborder et de créer des ascenseurs */
+    margin-bottom: 15px; /* Ajoute un peu d'espace en dessous si nécessaire */
+}
+
+.album-art-container .album-art {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    max-height: 100%; /* L'image ne sera pas plus haute que son parent .album-art-container */
+    object-fit: contain; /* Assure que toute l'image est visible et conserve ses proportions */
+    display: block;
+    border-radius: 8px;
+}
+
 img.album-art {
     border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.06);
@@ -264,8 +287,6 @@ img.album-art {
     justify-content: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
-
 
 footer {
     text-align: center;

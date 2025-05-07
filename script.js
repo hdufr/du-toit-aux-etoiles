@@ -48,7 +48,7 @@ if (progressBar) {
 // Fonction pour mettre à jour la source de l'image
 function updateAlbumArt(track) {
     if (albumArt) {
-        const imagePath = track.image ? `./images/${track.image}` : './images/default.jpg';
+        const imagePath = track.image ? `/images/${track.image}` : '/images/default.jpg';
         if (albumArt.src !== imagePath) {
             albumArt.src = imagePath;
         }
@@ -139,7 +139,7 @@ function openTab(evt, tabName) {
 // Charger les pistes, créer les onglets et la playlist
 async function fetchTracks() {
     try {
-        const response = await fetch('playlist.json');
+        const response = await fetch('/playlist.json');
         const data = await response.json();
 
         // Trier les pistes par ordre
@@ -204,7 +204,7 @@ async function fetchTracks() {
         currentTrackIndex = -1;
         updateNavigationButtons();
         if (albumArt) {
-            albumArt.src = './images/default.jpg'; // Réinitialiser l'image
+            albumArt.src = '/images/default.jpg'; // Réinitialiser l'image
         }
         if(audioPlayer){
              audioPlayer.src = ''; // Vider la source audio
@@ -242,7 +242,7 @@ function loadTrack(index) {
         }
 
         if (audioPlayer) {
-            audioPlayer.src = `./audio/${track.filename}`;
+            audioPlayer.src = `/audio/${encodeURIComponent(track.filename)}`; // MODIFIÉ ICI
             audioPlayer.load();
             audioPlayer.play()
                 .then(() => {
@@ -251,6 +251,8 @@ function loadTrack(index) {
                 })
                 .catch(error => {
                     console.error('Erreur lors de la lecture:', error);
+                    // Potentiellement, ajouter ici un message à l'utilisateur
+                    // ou une logique pour essayer de charger la piste suivante.
                 });
         }
 
@@ -292,30 +294,92 @@ function updatePlaylistSelection(currentTrack) {
 // Gérer l'erreur de chargement d'image
 if (albumArt) {
     albumArt.addEventListener('error', function() {
-        this.src = './images/default.jpg';
+        this.src = '/images/default.jpg';
     });
-}
-
-// Fonction pour aller à la piste précédente
-function goToPreviousTrack() {
-    if (tracks.length === 0) return;
-    
-    let newIndex = currentTrackIndex - 1;
-    if (newIndex < 0) {
-        newIndex = tracks.length - 1;
-    }
-    loadTrack(newIndex);
 }
 
 // Fonction pour aller à la piste suivante
 function goToNextTrack() {
-    if (tracks.length === 0) return;
-    
-    let newIndex = currentTrackIndex + 1;
-    if (newIndex >= tracks.length) {
-        newIndex = 0;
+    if (tracks.length === 0 || currentTrackIndex < 0) {
+        // Aucune piste chargée ou index invalide, ne rien faire
+        return;
     }
-    loadTrack(newIndex);
+
+    const currentPlayingTrack = tracks[currentTrackIndex];
+    const currentOnglet = currentPlayingTrack.onglet;
+
+    // Filtrer les pistes pour ne garder que celles de l'onglet actuel
+    // L'ordre est préservé car 'tracks' est déjà trié par 'order'
+    const tracksInCurrentOnglet = tracks.filter(track => track.onglet === currentOnglet);
+
+    if (tracksInCurrentOnglet.length === 0) {
+        // Ne devrait pas arriver si currentPlayingTrack existe, mais par sécurité
+        return;
+    }
+
+    // Trouver l'index de la piste actuelle dans la liste filtrée de l'onglet
+    const currentIndexInOnglet = tracksInCurrentOnglet.findIndex(track => track.filename === currentPlayingTrack.filename);
+
+    let nextIndexInOnglet = currentIndexInOnglet + 1;
+
+    // Si c'est la dernière piste de l'onglet, revenir à la première de cet onglet
+    if (nextIndexInOnglet >= tracksInCurrentOnglet.length) {
+        nextIndexInOnglet = 0;
+    }
+
+    const nextTrackToPlayInOnglet = tracksInCurrentOnglet[nextIndexInOnglet];
+
+    // Trouver l'index original de la prochaine piste dans la liste globale 'tracks'
+    const originalNewIndex = tracks.findIndex(track => track.filename === nextTrackToPlayInOnglet.filename);
+
+    if (originalNewIndex !== -1) {
+        loadTrack(originalNewIndex);
+    } else {
+        // Fallback: si quelque chose d'inattendu se produit, revenir au comportement par défaut (première piste de toute la playlist)
+        // Ou gérer l'erreur autrement
+        console.error("Erreur: Impossible de trouver la prochaine piste de l'onglet dans la playlist globale.");
+        loadTrack(0); // Option de secours
+    }
+}
+
+// Fonction pour aller à la piste précédente
+function goToPreviousTrack() {
+    if (tracks.length === 0 || currentTrackIndex < 0) {
+        // Aucune piste chargée ou index invalide, ne rien faire
+        return;
+    }
+
+    const currentPlayingTrack = tracks[currentTrackIndex];
+    const currentOnglet = currentPlayingTrack.onglet;
+
+    // Filtrer les pistes pour ne garder que celles de l'onglet actuel
+    const tracksInCurrentOnglet = tracks.filter(track => track.onglet === currentOnglet);
+
+    if (tracksInCurrentOnglet.length === 0) {
+        return;
+    }
+
+    // Trouver l'index de la piste actuelle dans la liste filtrée de l'onglet
+    const currentIndexInOnglet = tracksInCurrentOnglet.findIndex(track => track.filename === currentPlayingTrack.filename);
+
+    let prevIndexInOnglet = currentIndexInOnglet - 1;
+
+    // Si c'est la première piste de l'onglet, aller à la dernière de cet onglet
+    if (prevIndexInOnglet < 0) {
+        prevIndexInOnglet = tracksInCurrentOnglet.length - 1;
+    }
+
+    const prevTrackToPlayInOnglet = tracksInCurrentOnglet[prevIndexInOnglet];
+
+    // Trouver l'index original de la piste précédente dans la liste globale 'tracks'
+    const originalNewIndex = tracks.findIndex(track => track.filename === prevTrackToPlayInOnglet.filename);
+
+    if (originalNewIndex !== -1) {
+        loadTrack(originalNewIndex);
+    } else {
+        console.error("Erreur: Impossible de trouver la piste précédente de l'onglet dans la playlist globale.");
+        loadTrack(tracks.length - 1); // Option de secours: dernière piste de toute la playlist
+    }
 }
 
 // Écouteurs d'événements pour la navigation
@@ -340,7 +404,7 @@ function updateNavigationButtons() {
 // Fonction pour récupérer la version depuis version.txt
 async function updateVersion() {
     try {
-        const response = await fetch('./version.txt');
+        const response = await fetch('/version.txt');
         if (response.ok) {
             const version = await response.text();
             const versionElement = document.querySelector('.version');
@@ -353,8 +417,40 @@ async function updateVersion() {
     }
 }
 
+// Ajout des raccourcis clavier
+document.addEventListener('keydown', (event) => {
+    // Empêcher les raccourcis si l'utilisateur est en train de taper dans un champ
+    const targetTagName = event.target.tagName.toLowerCase();
+    if (targetTagName === 'input' || targetTagName === 'textarea' || targetTagName === 'select') {
+        return;
+    }
+
+    switch (event.key) {
+        case ' ': // Espace
+            event.preventDefault(); // Empêche le défilement de la page si la barre d'espace est pressée
+            togglePlayPause();
+            break;
+        case 'ArrowLeft': // Flèche gauche
+            goToPreviousTrack();
+            break;
+        case 'ArrowRight': // Flèche droite
+            goToNextTrack();
+            break;
+    }
+});
+
 // Initialisation
-document.addEventListener('DOMContentLoaded', () => {
-    fetchTracks();
+document.addEventListener('DOMContentLoaded', async () => {
+    await fetchTracks();
     updateVersion();
+    // Lecture directe si URL /audio/:nomDeLaPiste
+    const parts = location.pathname.split('/');
+    if (parts[1] === 'audio' && parts[2]) { // MODIFIÉ ICI: 'track' devient 'audio'
+        const id = decodeURIComponent(parts[2]);
+        // Assurer que le nom de fichier se termine par .mp3, sensible à la casse pour la correspondance initiale
+        const filename = id.endsWith('.mp3') ? id : `${id}.mp3`;
+        // Trouver l'index en comparant les noms de fichiers (insensible à la casse est plus robuste ici)
+        const idx = tracks.findIndex(t => t.filename.toLowerCase() === filename.toLowerCase());
+        if (idx >= 0) loadTrack(idx);
+    }
 });
