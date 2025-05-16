@@ -43,17 +43,17 @@
       "onglet": "jazz"
     },
     {
-      "filename": "DocteurFolAmour.mp3",
-      "title": "Docteur Fol'Amour",
-      "image": "DocteurFolAmour.jpg",
-      "order": 7,
-      "onglet": "jazz"
+      "filename": "LesRythmesDéfilent.mp3",
+      "title": "Les Rythmes Défilent",
+      "image": "",
+      "order": 8,
+      "onglet": "Funk"
     },
     {
       "filename": "ATable.mp3",
       "title": "À Table",
       "image": "TitreATableImage.jpeg",
-      "order": 8,
+      "order": 11,
       "onglet": "Funk"
     },
     {
@@ -74,21 +74,21 @@
       "filename": "Beluga.mp3",
       "title": "Beluga",
       "image": "beluga.jpg",
-      "order": 11,
+      "order": 20,
       "onglet": "Electro"
     },
     {
       "filename": "CeQuilmaLaisse.mp3",
       "title": "Ce Qu'il m'a Laissé",
       "image": "CeQuilmaLaisse.jpeg",
-      "order": 12,
+      "order": 30,
       "onglet": "Rock"
     },
     {
       "filename": "CelluleEnVelours.mp3",
       "title": "Cellule En Velours",
       "image": "CelluleEnVelours.jpeg",
-      "order": 13,
+      "order": 31,
       "onglet": "Rock"
     }
   ]
