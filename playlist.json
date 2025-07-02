@@ -46,7 +46,7 @@
       "filename": "LesRythmesDéfilent.mp3",
       "title": "Les Rythmes Défilent",
       "image": "",
-      "order": 8,
+      "order": 10,
       "onglet": "Funk"
     },
     {
@@ -60,14 +60,21 @@
       "filename": "LeBikeurElectrique.mp3",
       "title": "Le Bikeur Électrique",
       "image": "LeBikeurElectrique.jpeg",
-      "order": 9,
+      "order": 12,
       "onglet": "Funk"
     },
     {
       "filename": "DanserAvecToi.mp3",
       "title": "Danser Avec Toi",
       "image": "DanserAvecToiCover.jpeg",
-      "order": 10,
+      "order": 13,
+      "onglet": "Funk"
+    },
+    {
+      "filename": "DolomitesFunkyTrek.mp3",
+      "title": "Dolomites Funky Trek",
+      "image": "DolomitesFunkyTrek.jpg",
+      "order": 14,
       "onglet": "Funk"
     },
     {
@@ -86,7 +93,7 @@
     },
     {
       "filename": "CelluleEnVelours.mp3",
-      "title": "Cellule En Velours",
+      "title": "Verrouillée",
       "image": "CelluleEnVelours.jpeg",
       "order": 31,
       "onglet": "Rock"
