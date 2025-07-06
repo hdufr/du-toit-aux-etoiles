@@ -89,14 +89,21 @@
       "title": "Ce Qu'il m'a Laissé",
       "image": "CeQuilmaLaisse.jpeg",
       "order": 30,
-      "onglet": "Rock"
+      "onglet": "Pop Rock"
     },
     {
       "filename": "CelluleEnVelours.mp3",
       "title": "Verrouillée",
-      "image": "CelluleEnVelours.jpeg",
+      "image": "Verrouillee.jpg",
       "order": 31,
-      "onglet": "Rock"
+      "onglet": "Pop Rock"
+    },
+    {
+      "filename": "LeChantduNarval.mp3",
+      "title": "Le Chant Du Narval",
+      "image": "narval.jpg",
+      "order": 32,
+      "onglet": "Pop Rock"
     }
   ]
 }
