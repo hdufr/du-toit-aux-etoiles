@@ -99,17 +99,24 @@
       "onglet": "Pop Rock"
     },
     {
+      "filename": "NeigeAmere.mp3",
+      "title": "Neige Amère",
+      "image": "NeigeAmere.jpg",
+      "order": 32,
+      "onglet": "Pop Rock"
+    },
+    {
       "filename": "LeChantduNarval.mp3",
       "title": "Le Chant Du Narval",
-      "image": "narval.jpeg",
-      "order": 32,
+      "image": "narval.jpg",
+      "order": 33,
       "onglet": "Pop Rock"
     },
     {
       "filename": "JeSuisComplotiste.mp3",
       "title": "Je Suis Complotiste",
       "image": "JeSuisComplotiste.jpg",
-      "order": 33,
+      "order": 34,
       "onglet": "Pop Rock"
     }
   ]
